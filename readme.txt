@@ -35,3 +35,6 @@
   9. npm i @nestjs/config 
   10. Создаем .env 
   11. npm i -D @types/multer - для корректной работы с загрузкой файлов
+  12. npm i @nestjs/passport passport passport-local
+
+  20^00

@@ -9,12 +9,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from './users/entities/user.entity';
 import { FileEntity } from './files/entities/file.entity';
 import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
+import { AuthService } from './auth/auth.service';
 
 @Module({
   imports: [
-    UsersModule,
-    FilesModule,
-    // Подключение конфига ENV
     ConfigModule.forRoot(),
     // Добавление ORM
     TypeOrmModule.forRoot({
@@ -27,8 +26,11 @@ import { ConfigModule } from '@nestjs/config';
       entities: [UserEntity, FileEntity], // Добавляем существующие entity
       synchronize: true,
     }),
+    UsersModule,
+    FilesModule,
+    AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, AuthService],
 })
 export class AppModule {}

@@ -1,7 +1,14 @@
 import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
-import { Controller, Post, Body, UseInterceptors } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  UseInterceptors,
+  UploadedFile,
+  ParseFilePipe,
+  MaxFileSizeValidator,
+  Get,
+} from '@nestjs/common';
 import { FilesService } from './files.service';
-import { CreateFileDto } from './dto/create-file.dto';
 import { fileStorage } from './storage';
 import { FileInterceptor } from '@nestjs/platform-express';
 
@@ -10,13 +17,19 @@ import { FileInterceptor } from '@nestjs/platform-express';
 export class FilesController {
   constructor(private readonly filesService: FilesService) {}
 
+  @Get()
+  findAll() {
+    return this.filesService.findAll();
+  }
+
   @Post()
   @UseInterceptors(
     FileInterceptor('file', {
       storage: fileStorage,
     }),
   )
-  @ApiConsumes('multipart/form-data')
+  @ApiConsumes('multipart/form-data') // Тип запроса
+  // Возвращаемая схема боди
   @ApiBody({
     schema: {
       type: 'object',
@@ -28,7 +41,16 @@ export class FilesController {
       },
     },
   })
-  create(@Body() createFileDto: CreateFileDto) {
-    return this.filesService.create(createFileDto);
+  // Загрузка файлов
+  create(
+    @UploadedFile(
+      new ParseFilePipe({
+        // Валидация
+        validators: [new MaxFileSizeValidator({ maxSize: 1024 * 1024 * 5 })], // MaxSize указывается в байтах
+      }),
+    )
+    file: Express.Multer.File,
+  ) {
+    return file;
   }
 }
