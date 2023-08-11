@@ -22,9 +22,14 @@ async function bootstrap() {
     .setDescription('The Storage on clouds API description') // Добавляем описание API
     .setVersion('1.0') // Указываем версию API
     // .addTag('storage') // (Закомментировано) Можно добавить метки, чтобы лучше организовать документацию
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config); // Создаем документ Swagger с предоставленной конфигурацией
-  SwaggerModule.setup('swagger', app, document); // Настраиваем маршрут для API документации (/swagger)
+  SwaggerModule.setup('swagger', app, document, {
+    swaggerOptions: {
+      persistAuthorization: true,
+    },
+  }); // Настраиваем маршрут для API документации (/swagger)
 
   // Запускаем приложение и начинаем слушать на порту 7777
   await app.listen(7777);

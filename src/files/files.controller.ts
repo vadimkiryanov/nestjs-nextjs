@@ -1,4 +1,4 @@
-import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import {
   Controller,
   Post,
@@ -7,13 +7,17 @@ import {
   ParseFilePipe,
   MaxFileSizeValidator,
   Get,
+  UseGuards,
 } from '@nestjs/common';
 import { FilesService } from './files.service';
 import { fileStorage } from './storage';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 
 @Controller('files')
 @ApiTags('files') // Добавляет тег ==> default -> users / перемещает методы в этот тег
+@UseGuards(JwtAuthGuard)
+@ApiBearerAuth()
 export class FilesController {
   constructor(private readonly filesService: FilesService) {}
 

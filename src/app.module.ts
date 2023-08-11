@@ -1,3 +1,4 @@
+import { JwtService } from '@nestjs/jwt';
 // Этот файл позволяет создавать связь между контроллером и сервисом
 
 import { Module } from '@nestjs/common';
@@ -31,6 +32,6 @@ import { AuthService } from './auth/auth.service';
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService, AuthService],
+  providers: [AppService, AuthService, JwtService],
 })
 export class AppModule {}
