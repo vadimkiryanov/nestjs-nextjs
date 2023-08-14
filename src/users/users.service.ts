@@ -12,14 +12,19 @@ export class UsersService {
     private repository: Repository<UserEntity>,
   ) {}
 
+  // Найти пользователя по электронной почте
   async findByEmail(email: string) {
     return this.repository.findOneBy({ email });
   }
+
+  // Найти пользователя по идентификатору
   async findById(id: number) {
     return this.repository.findOneBy({
       id,
     });
   }
+
+  // Создать нового пользователя на основе CreateUserDto
   create(dto: CreateUserDto) {
     return this.repository.save(dto);
   }
