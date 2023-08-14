@@ -15,8 +15,8 @@ import { JwtStrategy } from './strategies/jwt.strategy';
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => {
         return {
-          secret: configService.get('SECRET_KEY'),
-          signOptions: { expiresIn: configService.get('EXPIRES_IN') },
+          secret: configService.get('SECRET_KEY'), // Получает секретный ключ из конфигурации
+          signOptions: { expiresIn: configService.get('EXPIRES_IN') }, // Устанавливает настройки подписи токена из конфигурации
         };
       },
     }),

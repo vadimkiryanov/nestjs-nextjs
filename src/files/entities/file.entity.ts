@@ -1,20 +1,25 @@
-import { UserEntity } from 'src/users/entities/user.entity';
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
   DeleteDateColumn,
+  Entity,
   ManyToOne,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
+import { UserEntity } from '../../users/entities/user.entity';
+
+export enum FileType {
+  PHOTOS = 'photos',
+  TRASH = 'trash',
+}
 
 @Entity('files')
 export class FileEntity {
-  // Описываем схему
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  fileName: string;
+  filename: string;
+
   @Column()
   originalName: string;
 
@@ -24,7 +29,6 @@ export class FileEntity {
   @Column()
   mimetype: string;
 
-  // Связь множества к одному / много файлов у одного пользователя
   @ManyToOne(() => UserEntity, (user) => user.files)
   user: UserEntity;
 

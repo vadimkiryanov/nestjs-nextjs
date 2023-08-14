@@ -9,6 +9,7 @@ import { LocalAuthGuard } from './guards/local.guard';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  // Авторизует пользователя
   @UseGuards(LocalAuthGuard)
   @Post('login')
   @ApiBody({ type: CreateUserDto })
@@ -16,6 +17,7 @@ export class AuthController {
     return this.authService.login(req.user as UserEntity);
   }
 
+  // Регистрирует нового пользователя
   @Post('/register')
   register(@Body() dto: CreateUserDto) {
     return this.authService.register(dto);
